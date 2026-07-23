@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everyday Things — Quiz & Picture Dictionary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="app-header">
+    <h1>Everyday Things</h1>
+    <p>Practice naming everyday objects, or look them up anytime.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Choose a mode">
+    <button class="tab-btn active" id="tab-quiz-btn" role="tab" aria-selected="true" aria-controls="tab-quiz">Quiz Me</button>
+    <button class="tab-btn" id="tab-ref-btn" role="tab" aria-selected="false" aria-controls="tab-ref">Look It Up</button>
+  </nav>
+
+  <section id="tab-quiz" class="panel active" role="tabpanel" aria-labelledby="tab-quiz-btn">
+    <div class="quiz-card" id="quizCard">
+      <!-- filled by JS -->
+    </div>
+  </section>
+
+  <section id="tab-ref" class="panel" role="tabpanel" aria-labelledby="tab-ref-btn">
+    <div class="ref-header">
+      <h2>Picture Dictionary</h2>
+      <p>All the items, in alphabetical order. Tap "Hear it" to hear the name.</p>
+    </div>
+    <div class="ref-grid" id="refGrid"><!-- filled by JS --></div>
+  </section>
+
+  <footer>Made for practicing names of everyday things.</footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
