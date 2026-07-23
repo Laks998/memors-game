@@ -10,6 +10,15 @@
      3. Update that item's `file:` value below to match your filename
         exactly, including the extension.
 
+   PEOPLE VS THINGS
+   ---------------------------------------------------------------------
+   Items with `type:'person'` will only ever be quizzed against OTHER
+   people as the multiple-choice options (never against objects/fruit/
+   etc). Everything else is treated as `type:'thing'` by default, and
+   things only get quizzed against other things. The picture list and
+   the order items appear in the quiz stay fully mixed together either
+   way — this only controls which answer choices show up together.
+
    That's it — no other code needs to change. Any common image format
    works (.jpg, .png, .svg, .webp, etc).
    ===================================================================== */
@@ -22,81 +31,82 @@ const RAW_ITEMS = [
   {id:'clock', name:'Clock', file:'clock.webp'},
   {id:'comb', name:'Comb', file:'comb.webp'},
   {id:'cup', name:'Cup', file:'cup.avif'},
-  {id:'stapler', name:'Envelope', file:'stapler.webp'},
+  {id:'stapler', name:'stapler', file:'stapler.webp'},
   {id:'fork', name:'Fork', file:'fork.svg'},
   {id:'glasses', name:'Glasses', file:'glasses.avif'},
-  {id:'hat', name:'Hat', file:'hat.svg'},
-  {id:'key', name:'Key', file:'key.svg'},
-  {id:'phone', name:'Phone', file:'phone.svg'},
-  {id:'scissors', name:'Scissors', file:'scissors.svg'},
-  {id:'shoe', name:'Shoe', file:'shoe.svg'},
-  {id:'spoon', name:'Spoon', file:'spoon.svg'},
-  {id:'toothbrush', name:'Toothbrush', file:'toothbrush.svg'},
-  {id:'umbrella', name:'Umbrella', file:'umbrella.svg'},
-  {id:'watch', name:'Watch', file:'watch.svg'},
+  {id:'cap', name:'cap', file:'cap.jpg'},
+  {id:'keys', name:'Keys', file:'keys.webp'},
+  {id:'mobile phone', name:'Mobile Phone', file:'mobile phone.jpg'},
+  {id:'scissors', name:'Scissors', file:'scissor.jpg'},
+  {id:'shoes', name:'Shoes', file:'shoes.png'},
+  {id:'spoon', name:'Spoon', file:'spoon.avif'},
+  {id:'toothbrush', name:'Toothbrush', file:'toothbrush.webp'},
+  {id:'umbrella', name:'Umbrella', file:'umbrella.jpg'},
+  {id:'watch', name:'Watch', file:'watch.avif'},
   {id:'apple', name:'Apple', file:'apple.avif'},
-  {id:'banana', name:'Banana', file:'banana.svg'},
+  {id:'banana', name:'Banana', file:'banana.avif'},
   {id:'orange', name:'Orange', file:'orange.jpeg'},
-  {id:'grapes', name:'Grapes', file:'grapes.svg'},
-  {id:'strawberry', name:'Strawberry', file:'strawberry.svg'},
-  {id:'watermelon', name:'Watermelon', file:'watermelon.svg'},
+  {id:'grapes', name:'Grapes', file:'grapes.png'},
+  {id:'strawberry', name:'Strawberry', file:'strawberry.jpeg'},
+  {id:'watermelon', name:'Watermelon', file:'watermelon.png'},
   {id:'pineapple', name:'Pineapple', file:'pineapple.jpeg'},
-  {id:'mango', name:'Mango', file:'mango.svg'},
-  {id:'pear', name:'Pear', file:'pear.svg'},
-  {id:'peach', name:'Peach', file:'peach.svg'},
-  {id:'lemon', name:'Lemon', file:'lemon.svg'},
-  {id:'cherries', name:'Cherries', file:'cherries.svg'},
-  {id:'kiwi', name:'Kiwi', file:'kiwi.svg'},
-  {id:'carrot', name:'Carrot', file:'carrot.svg'},
-  {id:'potato', name:'Potato', file:'potato.svg'},
-  {id:'tomato', name:'Tomato', file:'tomato.svg'},
-  {id:'onion', name:'Onion', file:'onion.svg'},
-  {id:'broccoli', name:'Broccoli', file:'broccoli.svg'},
-  {id:'corn', name:'Corn', file:'corn.svg'},
-  {id:'cucumber', name:'Cucumber', file:'cucumber.svg'},
-  {id:'pepper', name:'Pepper', file:'pepper.svg'},
-  {id:'eggplant', name:'Eggplant', file:'eggplant.svg'},
-  {id:'garlic', name:'Garlic', file:'garlic.svg'},
-  {id:'dog', name:'Dog', file:'dog.svg'},
-  {id:'cat', name:'Cat', file:'cat.svg'},
-  {id:'cow', name:'Cow', file:'cow.svg'},
-  {id:'horse', name:'Horse', file:'horse.svg'},
-  {id:'bird', name:'Bird', file:'bird.svg'},
-  {id:'fish', name:'Fish', file:'fish.svg'},
-  {id:'chicken', name:'Chicken', file:'chicken.svg'},
-  {id:'rabbit', name:'Rabbit', file:'rabbit.svg'},
-  {id:'elephant', name:'Elephant', file:'elephant.svg'},
-  {id:'lion', name:'Lion', file:'lion.svg'},
-  {id:'duck', name:'Duck', file:'duck.svg'},
-  {id:'sheep', name:'Sheep', file:'sheep.svg'},
-  {id:'pig', name:'Pig', file:'pig.svg'},
-  {id:'butterfly', name:'Butterfly', file:'butterfly.svg'},
-  {id:'eye', name:'Eye', file:'eye.svg'},
-  {id:'ear', name:'Ear', file:'ear.svg'},
-  {id:'nose', name:'Nose', file:'nose.svg'},
-  {id:'mouth', name:'Mouth', file:'mouth.svg'},
-  {id:'hand', name:'Hand', file:'hand.svg'},
-  {id:'foot', name:'Foot', file:'foot.svg'},
-  {id:'tooth', name:'Tooth', file:'tooth.svg'},
+  {id:'mango', name:'Mango', file:'mango.jpeg'},
+  {id:'lemon', name:'Lemon', file:'lemon.jpeg'},
+  {id:'cherries', name:'Cherries', file:'cherry.jpeg'},
+  {id:'carrot', name:'Carrot', file:'carrot.jpg'},
+  {id:'potato', name:'Potato', file:'potato.webp'},
+  {id:'tomato', name:'Tomato', file:'tomato.jpg'},
+  {id:'onion', name:'Onion', file:'onion.jpg'},
+  {id:'corn', name:'Corn', file:'corn.jpg'},
+  {id:'cucumber', name:'Cucumber', file:'cucumber.webp'},
+  {id:'pepper', name:'Pepper', file:'pepper.webp'},
+  {id:'garlic', name:'Garlic', file:'garlic.webp'},
+  {id:'dog', name:'Dog', file:'dog.avif'},
+  {id:'cat', name:'Cat', file:'cat.webp'},
+  {id:'cow', name:'Cow', file:'cow.webp'},
+  {id:'horse', name:'Horse', file:'horse.webp'},
+  {id:'crow', name:'Crow', file:'crow.jpg'},
+  {id:'fish', name:'Fish', file:'fish.avif'},
+  {id:'chicken', name:'Chicken', file:'chicken.webp'},
+  {id:'rabbit', name:'Rabbit', file:'rabbit.webp'},
+  {id:'elephant', name:'Elephant', file:'elephant.jpeg'},
+  {id:'tiger', name:'Tiger', file:'Tiger.avif'},
+  {id:'duck', name:'Duck', file:'duck.jpg'},
+  {id:'sheep', name:'Sheep', file:'sheep.jpg'},
+  {id:'pig', name:'Pig', file:'pig.webp'},
+  {id:'butterfly', name:'Butterfly', file:'butterfly.webp'},
+  {id:'eye', name:'Eye', file:'eye.jpg'},
+  {id:'ear', name:'Ear', file:'ear.jpeg'},
+  {id:'nose', name:'Nose', file:'nose.jpeg'},
+  {id:'mouth', name:'Mouth', file:'mouth.jpg'},
+  {id:'hand', name:'Hand', file:'hand.jpg'},
+  {id:'foot', name:'Foot', file:'foot.jpeg'},
+  {id:'teeth', name:'Teeth', file:'teeth.svg'},
   {id:'arm', name:'Arm', file:'arm.jpg'},
-  {id:'leg', name:'Leg', file:'leg.svg'},
-  {id:'tongue', name:'Tongue', file:'tongue.svg'},
-  {id:'red', name:'Red', file:'red.svg'},
-  {id:'yellow', name:'Yellow', file:'yellow.svg'},
-  {id:'green', name:'Green', file:'green.svg'},
-  {id:'blue', name:'Blue', file:'blue.svg'},
-  {id:'purple', name:'Purple', file:'purple.svg'},
-  {id:'black', name:'Black', file:'black.svg'},
-  {id:'white', name:'White', file:'white.svg'},
-  {id:'brown', name:'Brown', file:'brown.svg'},
-  {id:'pink', name:'Pink', file:'pink.svg'},
-  {id:'grey', name:'Grey', file:'grey.svg'}
+  {id:'legs', name:'Legs', file:'legs.jpg'},
+  {id:'tongue', name:'Tongue', file:'tongue.webp'},
+  {id:'red', name:'Red', file:'red.jpg'},
+  {id:'yellow', name:'Yellow', file:'yellow.avif'},
+  {id:'green', name:'Green', file:'green.avif'},
+  {id:'blue', name:'Blue', file:'blue.avif'},
+  {id:'black', name:'Black', file:'black.jpg'},
+  {id:'white', name:'White', file:'white.avif'},
+  {id:'brown', name:'Brown', file:'brown.png'},
+  {id:'pink', name:'Pink', file:'pink.jpg'},
+  {id:'grey', name:'Grey', file:'grey.avif'},
+  {id:'Lakshmi', name:'Lakshmi', file:'Lakshmi.jpeg', type:'person'},
+  {id:'Suja', name:'Suja', file:'Suja.jpeg', type:'person'},
+  {id:'Pratap', name:'Pratap Singh', file:'Pratap Singh.jpeg', type:'person'},
+  {id:'Amma', name:'Amma(Vanaja)', file:'Amma.jpeg', type:'person'},
+  {id:'Tarun', name:'Tarun', file:'Tarun.jpeg', type:'person'},
+  {id:'Baby', name:'Baby', file:'Baby.jpeg', type:'person'}
 ];
 
 const ITEMS = RAW_ITEMS.map((it, i) => ({
   ...it,
   color: BADGES[i % BADGES.length],
   file: it.file || `${it.id}.svg`,
+  type: it.type || 'thing',
   get img(){ return `Assets/${this.file}`; }
 }));
 
@@ -185,8 +195,19 @@ function renderQuestion(){
   }
 
   const current = quizOrder[quizIndex];
-  const wrongPool = ITEMS.filter(it => it.id !== current.id);
-  const wrongChoices = shuffle(wrongPool).slice(0, 3);
+
+  // Wrong-answer options only come from the same type as the current item:
+  // people only get quizzed against other people, things only against other things.
+  let sameTypePool = ITEMS.filter(it => it.id !== current.id && it.type === current.type);
+  let wrongChoices;
+  if(sameTypePool.length >= 3){
+    wrongChoices = shuffle(sameTypePool).slice(0, 3);
+  } else {
+    // Fallback (only triggers if a type has fewer than 4 total items)
+    const rest = ITEMS.filter(it => it.id !== current.id && !sameTypePool.includes(it));
+    wrongChoices = shuffle([...sameTypePool, ...shuffle(rest).slice(0, 3 - sameTypePool.length)]);
+  }
+
   const options = shuffle([current, ...wrongChoices]);
   const pct = Math.round((quizIndex / quizOrder.length) * 100);
 
@@ -215,7 +236,7 @@ function renderQuestion(){
       if(btn.dataset.id === current.id){
         btn.classList.add('correct');
         buttons.forEach(b => b.disabled = true);
-        feedback.textContent = `Yes! That's a ${current.name}.`;
+        feedback.textContent = `Yes! That's ${current.name}.`;
         feedback.className = 'feedback good';
         solvedCount++;
         speak(current.name);
