@@ -10,14 +10,24 @@
      3. Update that item's `file:` value below to match your filename
         exactly, including the extension.
 
-   PEOPLE VS THINGS
+   CATEGORIES
    ---------------------------------------------------------------------
-   Items with `type:'person'` will only ever be quizzed against OTHER
-   people as the multiple-choice options (never against objects/fruit/
-   etc). Everything else is treated as `type:'thing'` by default, and
-   things only get quizzed against other things. The picture list and
-   the order items appear in the quiz stay fully mixed together either
-   way — this only controls which answer choices show up together.
+   Every item has a `category`: 'person', 'colour', 'animal', 'fruit',
+   'vegetable', 'bodypart', or 'object'.
+
+   In the quiz, the 3 wrong-answer options ALWAYS come from the same
+   category as the correct answer — a person is only ever quizzed
+   against other people, a colour only against other colours, an
+   animal only against other animals, and so on. They never mix across
+   categories as answer choices.
+
+   The "Look It Up" picture dictionary groups People at the top and
+   everything else below (both alphabetized). The quiz order itself
+   still mixes every category together as it goes through the list.
+
+   To add a new item, just add a line with a matching `category` value
+   to one of the existing groups (or a new one — as long as there end
+   up being at least a few items sharing that category).
 
    That's it — no other code needs to change. Any common image format
    works (.jpg, .png, .svg, .webp, etc).
@@ -26,87 +36,99 @@
 const BADGES = ['#FDECD8','#DCEFEA','#E9E3F5','#FDE2E2','#DCE7F5'];
 
 const RAW_ITEMS = [
-  {id:'book', name:'Book', file:'book.webp'},
-  {id:'chair', name:'Chair', file:'chair.jpg'},
-  {id:'clock', name:'Clock', file:'clock.webp'},
-  {id:'comb', name:'Comb', file:'comb.webp'},
-  {id:'cup', name:'Cup', file:'cup.avif'},
-  {id:'stapler', name:'stapler', file:'stapler.webp'},
-  {id:'fork', name:'Fork', file:'fork.svg'},
-  {id:'glasses', name:'Glasses', file:'glasses.avif'},
-  {id:'cap', name:'cap', file:'cap.jpg'},
-  {id:'keys', name:'Keys', file:'keys.webp'},
-  {id:'mobile phone', name:'Mobile Phone', file:'mobile phone.jpg'},
-  {id:'scissors', name:'Scissors', file:'scissor.jpg'},
-  {id:'shoes', name:'Shoes', file:'shoes.png'},
-  {id:'spoon', name:'Spoon', file:'spoon.avif'},
-  {id:'toothbrush', name:'Toothbrush', file:'toothbrush.webp'},
-  {id:'umbrella', name:'Umbrella', file:'umbrella.jpg'},
-  {id:'watch', name:'Watch', file:'watch.avif'},
-  {id:'apple', name:'Apple', file:'apple.avif'},
-  {id:'banana', name:'Banana', file:'banana.avif'},
-  {id:'orange', name:'Orange', file:'orange.jpeg'},
-  {id:'grapes', name:'Grapes', file:'grapes.png'},
-  {id:'strawberry', name:'Strawberry', file:'strawberry.jpeg'},
-  {id:'watermelon', name:'Watermelon', file:'watermelon.png'},
-  {id:'pineapple', name:'Pineapple', file:'pineapple.jpeg'},
-  {id:'mango', name:'Mango', file:'mango.jpeg'},
-  {id:'lemon', name:'Lemon', file:'lemon.jpeg'},
-  {id:'cherries', name:'Cherries', file:'cherry.jpeg'},
-  {id:'carrot', name:'Carrot', file:'carrot.jpg'},
-  {id:'potato', name:'Potato', file:'potato.webp'},
-  {id:'tomato', name:'Tomato', file:'tomato.jpg'},
-  {id:'onion', name:'Onion', file:'onion.jpg'},
-  {id:'corn', name:'Corn', file:'corn.jpg'},
-  {id:'cucumber', name:'Cucumber', file:'cucumber.webp'},
-  {id:'pepper', name:'Pepper', file:'pepper.webp'},
-  {id:'garlic', name:'Garlic', file:'garlic.webp'},
-  {id:'dog', name:'Dog', file:'dog.avif'},
-  {id:'cat', name:'Cat', file:'cat.webp'},
-  {id:'cow', name:'Cow', file:'cow.webp'},
-  {id:'horse', name:'Horse', file:'horse.webp'},
-  {id:'crow', name:'Crow', file:'crow.jpg'},
-  {id:'fish', name:'Fish', file:'fish.avif'},
-  {id:'chicken', name:'Chicken', file:'chicken.webp'},
-  {id:'rabbit', name:'Rabbit', file:'rabbit.webp'},
-  {id:'elephant', name:'Elephant', file:'elephant.jpeg'},
-  {id:'tiger', name:'Tiger', file:'Tiger.avif'},
-  {id:'duck', name:'Duck', file:'duck.jpg'},
-  {id:'sheep', name:'Sheep', file:'sheep.jpg'},
-  {id:'pig', name:'Pig', file:'pig.webp'},
-  {id:'butterfly', name:'Butterfly', file:'butterfly.webp'},
-  {id:'eye', name:'Eye', file:'eye.jpg'},
-  {id:'ear', name:'Ear', file:'ear.jpeg'},
-  {id:'nose', name:'Nose', file:'nose.jpeg'},
-  {id:'mouth', name:'Mouth', file:'mouth.jpg'},
-  {id:'hand', name:'Hand', file:'hand.jpg'},
-  {id:'foot', name:'Foot', file:'foot.jpeg'},
-  {id:'teeth', name:'Teeth', file:'teeth.svg'},
-  {id:'arm', name:'Arm', file:'arm.jpg'},
-  {id:'legs', name:'Legs', file:'legs.jpg'},
-  {id:'tongue', name:'Tongue', file:'tongue.webp'},
-  {id:'red', name:'Red', file:'red.jpg'},
-  {id:'yellow', name:'Yellow', file:'yellow.avif'},
-  {id:'green', name:'Green', file:'green.avif'},
-  {id:'blue', name:'Blue', file:'blue.avif'},
-  {id:'black', name:'Black', file:'black.jpg'},
-  {id:'white', name:'White', file:'white.avif'},
-  {id:'brown', name:'Brown', file:'brown.png'},
-  {id:'pink', name:'Pink', file:'pink.jpg'},
-  {id:'grey', name:'Grey', file:'grey.avif'},
-  {id:'Lakshmi', name:'Lakshmi', file:'Lakshmi.jpeg', type:'person'},
-  {id:'Suja', name:'Suja', file:'Suja.jpeg', type:'person'},
-  {id:'Pratap', name:'Pratap Singh', file:'Pratap Singh.jpeg', type:'person'},
-  {id:'Amma', name:'Amma(Vanaja)', file:'Amma.jpeg', type:'person'},
-  {id:'Tarun', name:'Tarun', file:'Tarun.jpeg', type:'person'},
-  {id:'Baby', name:'Baby', file:'Baby.jpeg', type:'person'}
+  // ---- Everyday Things ----
+  {id:'book', name:'Book', file:'book.webp', category:'object'},
+  {id:'chair', name:'Chair', file:'chair.jpg', category:'object'},
+  {id:'clock', name:'Clock', file:'clock.webp', category:'object'},
+  {id:'comb', name:'Comb', file:'comb.webp', category:'object'},
+  {id:'cup', name:'Cup', file:'cup.avif', category:'object'},
+  {id:'stapler', name:'stapler', file:'stapler.webp', category:'object'},
+  {id:'glasses', name:'Glasses', file:'glasses.avif', category:'object'},
+  {id:'cap', name:'cap', file:'cap.jpg', category:'object'},
+  {id:'keys', name:'Keys', file:'keys.webp', category:'object'},
+  {id:'mobile phone', name:'Mobile Phone', file:'mobile phone.jpg', category:'object'},
+  {id:'scissors', name:'Scissors', file:'scissor.jpg', category:'object'},
+  {id:'shoes', name:'Shoes', file:'shoes.png', category:'object'},
+  {id:'spoon', name:'Spoon', file:'spoon.avif', category:'object'},
+  {id:'toothbrush', name:'Toothbrush', file:'toothbrush.webp', category:'object'},
+  {id:'umbrella', name:'Umbrella', file:'umbrella.jpg', category:'object'},
+  {id:'watch', name:'Watch', file:'watch.avif', category:'object'},
+
+  // ---- Fruits ----
+  {id:'apple', name:'Apple', file:'apple.avif', category:'fruit'},
+  {id:'banana', name:'Banana', file:'banana.avif', category:'fruit'},
+  {id:'orange', name:'Orange', file:'orange.jpeg', category:'fruit'},
+  {id:'grapes', name:'Grapes', file:'grapes.png', category:'fruit'},
+  {id:'strawberry', name:'Strawberry', file:'strawberry.jpeg', category:'fruit'},
+  {id:'watermelon', name:'Watermelon', file:'watermellon.png', category:'fruit'},
+  {id:'pineapple', name:'Pineapple', file:'pineapple.jpeg', category:'fruit'},
+  {id:'mango', name:'Mango', file:'mango.jpeg', category:'fruit'},
+  {id:'lemon', name:'Lemon', file:'lemon.jpeg', category:'fruit'},
+  {id:'cherries', name:'Cherries', file:'cherry.jpeg', category:'fruit'},
+
+  // ---- Vegetables ----
+  {id:'carrot', name:'Carrot', file:'carrot.jpg', category:'vegetable'},
+  {id:'potato', name:'Potato', file:'potato.jpg', category:'vegetable'},
+  {id:'tomato', name:'Tomato', file:'tomato.jpg', category:'vegetable'},
+  {id:'onion', name:'Onion', file:'onion.jpg', category:'vegetable'},
+  {id:'corn', name:'Corn', file:'corn.jpg', category:'vegetable'},
+  {id:'cucumber', name:'Cucumber', file:'cucumber.webp', category:'vegetable'},
+  {id:'pepper', name:'Pepper', file:'pepper.webp', category:'vegetable'},
+  {id:'garlic', name:'Garlic', file:'garlic.webp', category:'vegetable'},
+
+  // ---- Animals ----
+  {id:'dog', name:'Dog', file:'dog.avif', category:'animal'},
+  {id:'cat', name:'Cat', file:'cat.webp', category:'animal'},
+  {id:'cow', name:'Cow', file:'cow.webp', category:'animal'},
+  {id:'horse', name:'Horse', file:'horse.webp', category:'animal'},
+  {id:'crow', name:'Crow', file:'crow.jpg', category:'animal'},
+  {id:'fish', name:'Fish', file:'fish.avif', category:'animal'},
+  {id:'chicken', name:'Chicken', file:'chicken.webp', category:'animal'},
+  {id:'rabbit', name:'Rabbit', file:'rabbit.webp', category:'animal'},
+  {id:'elephant', name:'Elephant', file:'elephant.jpeg', category:'animal'},
+  {id:'tiger', name:'Tiger', file:'Tiger.avif', category:'animal'},
+  {id:'duck', name:'Duck', file:'duck.jpg', category:'animal'},
+  {id:'sheep', name:'Sheep', file:'sheep.jpg', category:'animal'},
+  {id:'pig', name:'Pig', file:'pig.webp', category:'animal'},
+  {id:'butterfly', name:'Butterfly', file:'butterfly.webp', category:'animal'},
+
+  // ---- Body Parts ----
+  {id:'eye', name:'Eye', file:'eye.jpg', category:'bodypart'},
+  {id:'ear', name:'Ear', file:'ear.jpeg', category:'bodypart'},
+  {id:'nose', name:'Nose', file:'nose.jpeg', category:'bodypart'},
+  {id:'mouth', name:'Mouth', file:'mouth.jpg', category:'bodypart'},
+  {id:'hand', name:'Hand', file:'hand.jpg', category:'bodypart'},
+  {id:'foot', name:'Foot', file:'foot.jpeg', category:'bodypart'},
+  {id:'teeth', name:'Teeth', file:'teeth.jpeg', category:'bodypart'},
+  {id:'arm', name:'Arm', file:'arm.jpg', category:'bodypart'},
+  {id:'legs', name:'Legs', file:'legs.jpg', category:'bodypart'},
+  {id:'tongue', name:'Tongue', file:'tongue.webp', category:'bodypart'},
+
+  // ---- Colours ----
+  {id:'red', name:'Red', file:'red.jpg', category:'colour'},
+  {id:'yellow', name:'Yellow', file:'yellow.avif', category:'colour'},
+  {id:'green', name:'Green', file:'green.avif', category:'colour'},
+  {id:'blue', name:'Blue', file:'blue.avif', category:'colour'},
+  {id:'black', name:'Black', file:'black.jpg', category:'colour'},
+  {id:'white', name:'White', file:'white.avif', category:'colour'},
+  {id:'brown', name:'Brown', file:'brown.png', category:'colour'},
+  {id:'pink', name:'Pink', file:'pink.jpg', category:'colour'},
+  {id:'grey', name:'Grey', file:'grey.avif', category:'colour'},
+
+  // ---- People ----
+  {id:'Lakshmi', name:'Lakshmi', file:'Lakshmi.jpeg', category:'person'},
+  {id:'Suja', name:'Suja', file:'Suja.jpeg', category:'person'},
+  {id:'Pratap', name:'Pratap Singh', file:'Pratap Singh.jpeg', category:'person'},
+  {id:'Amma', name:'Amma(Vanaja)', file:'Amma.jpeg', category:'person'},
+  {id:'Tarun', name:'Tarun', file:'Tarun.jpeg', category:'person'},
+  {id:'Baby', name:'Baby', file:'Baby.jpeg', category:'person'}
 ];
 
 const ITEMS = RAW_ITEMS.map((it, i) => ({
   ...it,
   color: BADGES[i % BADGES.length],
   file: it.file || `${it.id}.svg`,
-  type: it.type || 'thing',
+  category: it.category || 'object',
   get img(){ return `Assets/${this.file}`; }
 }));
 
@@ -141,8 +163,11 @@ function speak(text){
 /* ---------------- REFERENCE TAB ---------------- */
 function buildReference(){
   const grid = document.getElementById('refGrid');
-  const sorted = [...ITEMS].sort((a,b) => a.name.localeCompare(b.name));
-  grid.innerHTML = sorted.map(item => `
+
+  const people = ITEMS.filter(it => it.category === 'person').sort((a,b) => a.name.localeCompare(b.name));
+  const things = ITEMS.filter(it => it.category !== 'person').sort((a,b) => a.name.localeCompare(b.name));
+
+  const cardHtml = item => `
     <div class="ref-card">
       <div class="ref-badge" style="background:${item.color}">
         <img src="${item.img}" alt="${item.name}">
@@ -150,7 +175,19 @@ function buildReference(){
       <div class="ref-name">${item.name}</div>
       <button class="speak-btn" data-name="${item.name}" aria-label="Hear the word ${item.name}">Hear it</button>
     </div>
-  `).join('');
+  `;
+
+  let html = '';
+  if(people.length){
+    html += `<h3 class="ref-group-heading">People</h3>`;
+    html += `<div class="ref-grid">${people.map(cardHtml).join('')}</div>`;
+  }
+  if(things.length){
+    html += `<h3 class="ref-group-heading">Everyday Things</h3>`;
+    html += `<div class="ref-grid">${things.map(cardHtml).join('')}</div>`;
+  }
+
+  grid.innerHTML = html;
   grid.querySelectorAll('.speak-btn').forEach(btn => {
     btn.addEventListener('click', () => speak(btn.dataset.name));
   });
@@ -196,16 +233,15 @@ function renderQuestion(){
 
   const current = quizOrder[quizIndex];
 
-  // Wrong-answer options only come from the same type as the current item:
-  // people only get quizzed against other people, things only against other things.
-  let sameTypePool = ITEMS.filter(it => it.id !== current.id && it.type === current.type);
+  // Wrong-answer options only come from the same category as the current item.
+  let samePool = ITEMS.filter(it => it.id !== current.id && it.category === current.category);
   let wrongChoices;
-  if(sameTypePool.length >= 3){
-    wrongChoices = shuffle(sameTypePool).slice(0, 3);
+  if(samePool.length >= 3){
+    wrongChoices = shuffle(samePool).slice(0, 3);
   } else {
-    // Fallback (only triggers if a type has fewer than 4 total items)
-    const rest = ITEMS.filter(it => it.id !== current.id && !sameTypePool.includes(it));
-    wrongChoices = shuffle([...sameTypePool, ...shuffle(rest).slice(0, 3 - sameTypePool.length)]);
+    // Fallback (only triggers if a category has fewer than 4 total items)
+    const rest = ITEMS.filter(it => it.id !== current.id && !samePool.includes(it));
+    wrongChoices = shuffle([...samePool, ...shuffle(rest).slice(0, 3 - samePool.length)]);
   }
 
   const options = shuffle([current, ...wrongChoices]);
