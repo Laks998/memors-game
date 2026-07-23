@@ -303,7 +303,7 @@ function renderQuestion(){
     <div class="badge" style="background:${current.color}">
       <img src="${current.img}" alt="">
     </div>
-    <div class="prompt">What is this?</div>
+    <div class="prompt">what do you see?</div>
     <div class="options">
       ${options.map(opt => `<button class="opt-btn" data-id="${opt.id}">${opt.name}</button>`).join('')}
     </div>
