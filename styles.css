@@ -157,7 +157,6 @@ header.app-header p{
   .feedback{font-size:0.95rem; min-height:24px; margin-top:10px;}
   .next-row{margin-top:10px; min-height:30px;}
   .big-btn{font-size:0.95rem; padding:10px 20px; min-height:42px;}
-  .ref-grid{grid-template-columns:1fr; max-width:340px; margin-left:auto; margin-right:auto;}
 }
 .opt-btn{
   font-family:inherit;
@@ -304,4 +303,18 @@ footer{
 
 @media (prefers-reduced-motion: reduce){
   *{transition:none !important;}
+}
+
+/* Picture dictionary: one big card per row on phones.
+   Placed at the very end of the file on purpose — CSS rules of equal
+   specificity are decided by which one appears LAST in the file, so
+   this must come after the regular (multi-column) .ref-grid rule
+   above in order to actually win on phone screens. */
+@media (max-width:700px){
+  .ref-grid{
+    grid-template-columns:1fr;
+    max-width:380px;
+    margin-left:auto;
+    margin-right:auto;
+  }
 }
