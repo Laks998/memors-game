@@ -161,11 +161,19 @@ function speak(text){
 }
 
 /* ---------------- REFERENCE TAB ---------------- */
+// Order the "Look It Up" sections appear in — People first, Colours last.
+const CATEGORY_ORDER = [
+  {key:'person', label:'People'},
+  {key:'object', label:'Everyday Things'},
+  {key:'fruit', label:'Fruits'},
+  {key:'vegetable', label:'Vegetables'},
+  {key:'animal', label:'Animals'},
+  {key:'bodypart', label:'Body Parts'},
+  {key:'colour', label:'Colours'}
+];
+
 function buildReference(){
   const grid = document.getElementById('refGrid');
-
-  const people = ITEMS.filter(it => it.category === 'person').sort((a,b) => a.name.localeCompare(b.name));
-  const things = ITEMS.filter(it => it.category !== 'person').sort((a,b) => a.name.localeCompare(b.name));
 
   const cardHtml = item => `
     <div class="ref-card">
@@ -178,14 +186,12 @@ function buildReference(){
   `;
 
   let html = '';
-  if(people.length){
-    html += `<h3 class="ref-group-heading">People</h3>`;
-    html += `<div class="ref-grid">${people.map(cardHtml).join('')}</div>`;
-  }
-  if(things.length){
-    html += `<h3 class="ref-group-heading">Everyday Things</h3>`;
-    html += `<div class="ref-grid">${things.map(cardHtml).join('')}</div>`;
-  }
+  CATEGORY_ORDER.forEach(({key, label}) => {
+    const group = ITEMS.filter(it => it.category === key).sort((a,b) => a.name.localeCompare(b.name));
+    if(!group.length) return;
+    html += `<h3 class="ref-group-heading">${label}</h3>`;
+    html += `<div class="ref-grid">${group.map(cardHtml).join('')}</div>`;
+  });
 
   grid.innerHTML = html;
   grid.querySelectorAll('.speak-btn').forEach(btn => {
@@ -209,9 +215,51 @@ let quizIndex = 0;
 let solvedCount = 0;
 let advanceTimer = null;
 
+// How many extra times each category shows up per round of the quiz.
+// 1 = normal frequency. People appear 3x as often as everything else.
+// How many times each person is repeated in the pool before spacing them
+// evenly through the quiz. Raise this if you want people even more frequent.
+const PERSON_REPEATS = 3;
+
+// Spreads the sparser list "a" evenly through the larger list "b",
+// instead of relying on pure randomness (which can clump or create
+// long gaps). Both lists should already be shuffled internally.
+function interleaveEvenly(a, b){
+  const result = [];
+  const total = a.length + b.length;
+  const ratio = total ? a.length / total : 0;
+  let ai = 0, bi = 0, acc = 0;
+  while(ai < a.length || bi < b.length){
+    acc += ratio;
+    if(acc >= 1 && ai < a.length){
+      result.push(a[ai++]);
+      acc -= 1;
+    } else if(bi < b.length){
+      result.push(b[bi++]);
+    } else if(ai < a.length){
+      result.push(a[ai++]);
+    }
+  }
+  return result;
+}
+
+function buildQuizOrder(){
+  const people = ITEMS.filter(it => it.category === 'person');
+  const others = ITEMS.filter(it => it.category !== 'person');
+
+  // Repeat each person a few times, then shuffle just among themselves
+  // so the same person isn't always followed by the same next person.
+  const peoplePool = shuffle(
+    people.flatMap(p => Array(PERSON_REPEATS).fill(p))
+  );
+  const othersPool = shuffle(others);
+
+  return interleaveEvenly(peoplePool, othersPool);
+}
+
 function startQuiz(){
   if(advanceTimer){ clearTimeout(advanceTimer); advanceTimer = null; }
-  quizOrder = shuffle(ITEMS);
+  quizOrder = buildQuizOrder();
   quizIndex = 0;
   solvedCount = 0;
   renderQuestion();
