@@ -3,8 +3,8 @@
   --ink: #23302B;
   --teal: #0f6b5c;
   --teal-dark: #0B4F44;
-  --ochre: #e0a246;
-  --ochre-dark: #A66E1A;
+  --ochre: #45433f;
+  --ochre-dark: #5c5750;
   --green: #2F8F4E;
   --green-bg: #E6F4E9;
   --card: #FFFFFF;
@@ -100,7 +100,7 @@ header.app-header p{
   flex:1;
   max-width:320px;
   height:10px;
-  background:#EEE7D8;
+  background:#eeeeee;
   border-radius:999px;
   overflow:hidden;
 }
@@ -165,8 +165,8 @@ header.app-header p{
   padding:18px 12px;
   min-height:66px;
   border-radius:14px;
-  border:3px solid #D8CDB4;
-  background:#FFFDF9;
+  border:3px solid #fff1c9;
+  background:#faf9ec;
   color:var(--ink);
   cursor:pointer;
   transition:transform .1s ease, background .15s ease, border-color .15s ease;
